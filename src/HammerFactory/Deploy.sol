@@ -77,7 +77,7 @@ contract Deployer is Script {
         );
     }
 
-    function nameToId(string memory name) private returns (uint64) {
+    function nameToId(string memory name) private pure returns (uint64) {
         return uint64(uint256(keccak256(abi.encodePacked("example", name))));
     }
 

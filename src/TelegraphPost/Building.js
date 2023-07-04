@@ -2,7 +2,7 @@ import ds from 'dawnseekers';
 
 export default function update({ selected, world }) {
 
-    const { tiles, seeker } = selected || {};
+    const { tiles, mobileUnit } = selected || {};
     const selectedTile = tiles && tiles.length === 1 ? tiles[0] : undefined;
     const selectedBuilding = selectedTile?.building;
     const buildingKinds = world.buildings.map(b => b.kind).filter(k => !!k);
@@ -11,10 +11,10 @@ export default function update({ selected, world }) {
     const messages = radioWave?.name?.value?.split('|') || [];
 
     const onSubmit = (values) => {
-        const message = values.message ? `${seeker.name?.value || `0x${seeker.id.slice(-5)}`}: ${values.message || ''}` : '';
+        const message = values.message ? `${mobileUnit.name?.value || `0x${mobileUnit.id.slice(-5)}`}: ${values.message || ''}` : '';
         ds.dispatch({
             name: 'BUILDING_USE',
-            args: [selectedBuilding.id, seeker.id, ds.encodeCall('function SendMessage(string memory)', [message || ''])]
+            args: [selectedBuilding.id, mobileUnit.id, ds.encodeCall('function SendMessage(string memory)', [message || ''])]
         })
     };
 

@@ -32,7 +32,7 @@ function getNeighbours(tiles, t) {
 
 export default function update({ selected, world }) {
 
-    const { tiles, seeker } = selected || {};
+    const { tiles, mobileUnit } = selected || {};
     const selectedTile = tiles && tiles.length === 1 ? tiles[0] : undefined;
 
     // get neighbouring buildings
@@ -49,10 +49,10 @@ export default function update({ selected, world }) {
         }
         // fill your boots
         ds.dispatch({
-            name: 'TRANSFER_ITEM_SEEKER',
+            name: 'TRANSFER_ITEM_MOBILE_UNIT',
             args: [
-                seeker.id,
-                [source.equipee.id, seeker.id],
+                mobileUnit.id,
+                [source.equipee.id, mobileUnit.id],
                 [source.equip.key, 0],
                 [source.item.key, 0],
                 "0x000000000000000000000000000000000000000000000000",

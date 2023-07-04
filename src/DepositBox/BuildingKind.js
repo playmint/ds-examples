@@ -2,17 +2,17 @@ import ds from 'dawnseekers';
 
 export default function update({ selected, world }) {
 
-    const { tiles, seeker } = selected || {};
+    const { tiles, mobileUnit } = selected || {};
     const selectedTile = tiles && tiles.length === 1 ? tiles[0] : undefined;
     const selectedBuilding = selectedTile?.building;
 
 
     const deposit = (bagId, keyId) => {
-        const actions = (seeker?.bags || []).flatMap(b => b.bag.slots.filter(slot => slot.balance > 0).map(slot => ({
-            name: 'TRANSFER_ITEM_SEEKER',
+        const actions = (mobileUnit?.bags || []).flatMap(b => b.bag.slots.filter(slot => slot.balance > 0).map(slot => ({
+            name: 'TRANSFER_ITEM_MOBILE_UNIT',
             args: [
-                seeker.id,
-                [seeker.id, selectedBuilding.id],
+                mobileUnit.id,
+                [mobileUnit.id, selectedBuilding.id],
                 [b.key, keyId + b.key],
                 [slot.key, slot.key],
                 [bagId,b.key.toString()].join(''),
@@ -25,12 +25,12 @@ export default function update({ selected, world }) {
     const restore = (keyId) => {
         const bag0 = selectedBuilding.bags?.find(bb => bb.key == (keyId + 0));
         const bag1 = selectedBuilding.bags?.find(bb => bb.key == (keyId + 1));
-        const actions = [bag0, bag1].flatMap((b,seekerEquipSlot) => b ? b.bag.slots.filter(slot => slot.balance > 0).map(slot => ({
-            name: 'TRANSFER_ITEM_SEEKER',
+        const actions = [bag0, bag1].flatMap((b,mobileUnitEquipSlot) => b ? b.bag.slots.filter(slot => slot.balance > 0).map(slot => ({
+            name: 'TRANSFER_ITEM_MOBILE_UNIT',
             args: [
-                seeker.id,
-                [selectedBuilding.id, seeker.id],
-                [b.key, seekerEquipSlot],
+                mobileUnit.id,
+                [selectedBuilding.id, mobileUnit.id],
+                [b.key, mobileUnitEquipSlot],
                 [slot.key, slot.key],
                 "0x000000000000000000000000000000000000000000000000",
                 slot.balance

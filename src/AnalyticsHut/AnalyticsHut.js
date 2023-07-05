@@ -1,9 +1,9 @@
-import ds from 'dawnseekers';
+import ds from 'downstream';
 
 export default function update(state) {
   const { world } = state;
-  const seekers = (world?.tiles || []).flatMap((t) => t.seekers);
-  const countSeekers = seekers.length;
+  const mobileUnits = (world?.tiles || []).flatMap((t) => t.mobileUnits);
+  const countMobileUnits = mobileUnits.length;
 
   const values = (world?.buildings || [])
   .flatMap((building) => building.kind?.name?.value)
@@ -58,7 +58,7 @@ export default function update(state) {
           {
             id: 'engineercount',
             type: 'inline',
-            html: `Total Engineers: ${countSeekers}`,
+            html: `Total Engineers: ${countMobileUnits}`,
           },
         ],
       },

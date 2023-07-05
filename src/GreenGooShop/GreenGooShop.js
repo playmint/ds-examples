@@ -1,13 +1,13 @@
-import ds from 'dawnseekers';
+import ds from 'downstream';
 
 export default function update({ selected, world }) {
 
-    const { tiles, seeker } = selected || {};
+    const { tiles, mobileUnit } = selected || {};
     const selectedTile = tiles && tiles.length === 1 ? tiles[0] : undefined;
     const selectedBuilding = selectedTile?.building;
 
     // whats in unit bag 0 slot 0?
-    const unitEquipment0 = seeker && seeker.bags.length > 0 ? seeker.bags?.find(bag => bag.key == 0) : undefined;
+    const unitEquipment0 = mobileUnit && mobileUnit.bags.length > 0 ? mobileUnit.bags?.find(bag => bag.key == 0) : undefined;
     const unitBag0 = unitEquipment0?.bag;
     const unitBag0Slot0 = unitBag0?.slots?.find(slot => slot.key == 0);
     const item = unitBag0Slot0 ? unitBag0Slot0.item : undefined;
@@ -71,7 +71,7 @@ export default function update({ selected, world }) {
 
     const buy = () => {
 
-        if (!seeker) {
+        if (!mobileUnit) {
             ds.log('no selected mobile unit');
             return;
         }
@@ -95,10 +95,10 @@ export default function update({ selected, world }) {
         ds.dispatch(
             {
                 // spend the red goo
-                name: 'TRANSFER_ITEM_SEEKER',
+                name: 'TRANSFER_ITEM_MOBILE_UNIT',
                 args: [
-                    seeker.id,
-                    [seeker.id, selectedBuilding.id],
+                    mobileUnit.id,
+                    [mobileUnit.id, selectedBuilding.id],
                     [0, 1],
                     [0, freeRedSlot],
                     dummyBagIdIncaseToBagDoesNotExist,
@@ -107,10 +107,10 @@ export default function update({ selected, world }) {
             },  
             {
                 // get the green goo
-                name: 'TRANSFER_ITEM_SEEKER',
+                name: 'TRANSFER_ITEM_MOBILE_UNIT',
                 args: [
-                    seeker.id,
-                    [selectedBuilding.id, seeker.id],
+                    mobileUnit.id,
+                    [selectedBuilding.id, mobileUnit.id],
                     [0, 0],
                     [usedGreenSlot, 0],
                     dummyBagIdIncaseToBagDoesNotExist,
@@ -125,7 +125,7 @@ export default function update({ selected, world }) {
     const stock = () => {
 
 
-        if (!seeker) {
+        if (!mobileUnit) {
             ds.log('no selected mobile unit');
             return;
         }
@@ -147,10 +147,10 @@ export default function update({ selected, world }) {
         ds.dispatch(
             {
                 // send the green goo into two slots
-                name: 'TRANSFER_ITEM_SEEKER',
+                name: 'TRANSFER_ITEM_MOBILE_UNIT',
                 args: [
-                    seeker.id,
-                    [seeker.id, selectedBuilding.id],
+                    mobileUnit.id,
+                    [mobileUnit.id, selectedBuilding.id],
                     [0, 0],
                     [0, freeGreenSlot],
                     dummyBagIdIncaseToBagDoesNotExist,
@@ -158,10 +158,10 @@ export default function update({ selected, world }) {
                 ]
             },
             {
-                name: 'TRANSFER_ITEM_SEEKER',
+                name: 'TRANSFER_ITEM_MOBILE_UNIT',
                 args: [
-                    seeker.id,
-                    [seeker.id, selectedBuilding.id],
+                    mobileUnit.id,
+                    [mobileUnit.id, selectedBuilding.id],
                     [0, 0],
                     [0, freeGreenSlot+1],
                     dummyBagIdIncaseToBagDoesNotExist,

@@ -21,7 +21,7 @@ contract BuildingKindImplementation is BuildingKind {
     bytes24 entity;
     string[] messages;
 
-    function use(Game ds, bytes24 /*buildingInstance*/, bytes24, /*seeker*/ bytes calldata payload ) public {
+    function use(Game ds, bytes24 /*buildingInstance*/, bytes24, /*mobileUnit*/ bytes calldata payload ) public {
 
         // grab the dispatcher n state
         Dispatcher dispatcher = ds.getDispatcher();
